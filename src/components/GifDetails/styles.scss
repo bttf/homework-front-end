@@ -1,0 +1,123 @@
+.gif-details-container {
+  position: fixed;
+  top: 5%;
+  right: 5%;
+  bottom: 5%;
+  left: 5%;
+
+  display: flex;
+  flex-direction: column;
+
+  opacity: 0;
+  transition: all .5s;
+
+  &.visible {
+    opacity: 1;
+  }
+
+  .close {
+    min-height: 1.2rem;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    cursor: pointer;
+
+    text-shadow: 0 0 12px red;
+  }
+
+  .gif-details {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-y: scroll;
+
+    background-color: rgba(0, 0, 0, 1);
+
+    border-radius: 1rem;
+
+    padding-top: 1.2rem;
+
+    .image {
+      padding: 1rem;
+
+      img {
+        width: 100%;
+        height: auto;
+        box-sizing: content-box;
+      }
+    }
+
+    .info {
+      flex: 1;
+      min-height: 300px;
+
+      color: white;
+
+      padding: 0 1rem;
+      margin-bottom: 2rem;
+
+      font-size: .7rem;
+      font-weight: 300;
+
+      .detail {
+        display: flex;
+
+        justify-content: space-between;
+
+        .key {
+          flex: 1;
+          font-weight: 400;
+        }
+
+        .value {
+          flex: 1;
+          word-break: break-word;
+
+          a {
+            color: white;
+          }
+        }
+      }
+
+      .user,
+      .rating {
+        font-size: 2rem;
+        font-weight: bold;
+
+        .rating-value {
+          text-transform: uppercase;
+        }
+      }
+
+      .user {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        .label {
+          flex: 1 100%;
+          font-weight: 300;
+          margin-bottom: .5rem;
+        }
+
+        .username {
+          flex: 1;
+        }
+
+        .avatar {
+          height: 100px;
+          margin-right: .5rem;
+
+          img {
+            height: 100%;
+            width: auto;
+          }
+        }
+      }
+    }
+  }
+}

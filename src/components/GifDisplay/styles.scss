@@ -1,0 +1,54 @@
+.gif-display {
+  position: relative;
+
+  opacity :0;
+
+  color: white;
+
+  width: 300px;
+  height: 300px;
+
+  margin-bottom: 2rem;
+
+  border-radius: 1rem;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  box-shadow: 0 0 24px rgba(0, 0, 0, .5);
+
+  transition: all .25s;
+  transform: scale(1.1, 1.1);
+
+  &.visible {
+    opacity: 1;
+    box-shadow: 0 0 0 rgba(0, 0, 0, .5);
+    transform: scale(1, 1);
+
+    &:hover{
+      box-shadow: 0 0 24px rgba(0, 0, 0, .5);
+      transform: scale(1.1, 1.1);
+    }
+  }
+
+  @media(min-width: 630px) {
+    margin-right: 2rem;
+  }
+
+  .loading {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    background-color: rgba(0, 0, 0, .5);
+  }
+}

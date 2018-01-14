@@ -1,27 +1,29 @@
-import React, { Component } from 'react';
-import './styles.css';
+import React, { PureComponent } from 'react';
+import './styles.scss';
 
-class GifDisplay extends Component {
+class GifDisplay extends PureComponent {
   constructor(props) {
     super(props)
 
     this.state = {
+      isVisible: false,
       isLoading: true,
       image: null,
-      imageURL: this.getImageURL(props.gif),
     };
-
-    this.clickHandler = this.clickHandler.bind(this);
   }
 
   componentDidMount() {
-    this.waitForLoading(this.state.imageURL);
+    this.waitForLoading(this.props.imageURL);
+
+    setTimeout(() => {
+      this.setState({ isVisible: true });
+    }, 100 + (this.props.index * 100));
   }
 
   componentWillReceiveProps(nextProps) {
-    const imageURL = this.getImageURL(nextProps.gif);
-    this.setState({ imageURL });
-    this.waitForLoading(imageURL);
+    if (nextProps.imageURL !== this.props.imageURL) {
+      this.waitForLoading(nextProps.imageURL);
+    }
   }
 
   componentWillUnmount() {
@@ -33,26 +35,22 @@ class GifDisplay extends Component {
     const image = new Image();
     this.setState({ isLoading: true, image });
     image.onload = () => { this.setState({ isLoading: false }) };
-    image.src = this.state.imageURL;
-  }
-
-  getImageURL(gif) {
-    return gif.images.downsized_medium.url;
-  }
-
-  clickHandler() {
-    this.props.selectGif(this.props.gif);
+    image.src = this.props.imageURL;
   }
 
   render() {
     const style = {
-      backgroundImage: `url(${this.state.imageURL})`,
+      backgroundImage: `url(${this.props.imageURL})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     };
 
     return (
-      <div className="gif-display" style={style} onClick={this.clickHandler}>
+      <div
+        className={`gif-display ${this.state.isVisible && ' visible'}`}
+        style={style}
+        onClick={this.props.selectGif}
+      >
         {this.state.isLoading && <div className="loading">Loading...</div>}
       </div>
     );

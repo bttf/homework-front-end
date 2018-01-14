@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import './styles.css';
+import './styles.scss';
 
 const _debounce = require('lodash/debounce');
 

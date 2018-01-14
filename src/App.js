@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar';
 import GifDisplay from './components/GifDisplay';
 import GifDetails from './components/GifDetails';
 import { API_KEY } from './config';
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   state = {
@@ -14,6 +14,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+
     this.searchGifs = this.searchGifs.bind(this);
     this.selectGif = this.selectGif.bind(this);
   }
@@ -57,21 +58,28 @@ class App extends Component {
     return (
       <div className="application">
         <SearchBar search={this.searchGifs} />
-        <h1>{this.state.currentQuery ? `Results for \'${this.state.currentQuery}\'` : 'What\'s Trending'}</h1>
-        <div className="gifs">
-          {this.state.gifs.map((gif, index) => {
-            return (<GifDisplay key={index} gif={gif} selectGif={this.selectGif} />);
-          })}
 
-          {this.state.selectedGif &&
-              <GifDetails
-                gif={this.state.selectedGif}
-                unselectGif={gif => this.setState({
-                  selectedGif: null,
-                })}
-              />
-          }
+        <h1>{this.state.currentQuery ? `Results for \'${this.state.currentQuery}\'` : 'What\'s Trending'}</h1>
+
+        <div className="gifs">
+          {this.state.gifs.map((gif, index) => (
+            <GifDisplay
+              key={index}
+              index={index}
+              imageURL={gif.images.downsized_medium.url}
+              selectGif={this.selectGif.bind(this, gif)}
+            />
+          ))}
         </div>
+
+        {this.state.selectedGif &&
+            <GifDetails
+              gif={this.state.selectedGif}
+              unselectGif={gif => this.setState({
+                selectedGif: null,
+              })}
+            />
+        }
       </div>
     );
   }
