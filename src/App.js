@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SearchBar from './components/SearchBar';
 import GifDisplay from './components/GifDisplay';
+import GifDetails from './components/GifDetails';
 import { API_KEY } from './config';
 import './App.css';
 
@@ -8,11 +9,13 @@ class App extends Component {
   state = {
     gifs: [],
     currentQuery: null,
+    selectedGif: null,
   }
 
   constructor(props) {
     super(props);
     this.searchGifs = this.searchGifs.bind(this);
+    this.selectGif = this.selectGif.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +38,19 @@ class App extends Component {
     return fetch(`https://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}`)
       .then(response => response.json())
       .then(json => this.setState({ gifs: json.data }));
+      // .then(json => {
+      //   this.setState({
+      //     gifs: json.data,
+      //     selectedGif: json.data[0],
+      //   });
+      // });
+  }
+
+  selectGif(gif) {
+    this.setState({ selectedGif: gif });
+    fetch(`https://api.giphy.com/v1/gifs/${gif.id}?api_key=${API_KEY}`)
+      .then(response => response.json())
+      .then(json => this.setState({ selectedGif: json.data }));
   }
 
   render() {
@@ -43,9 +59,18 @@ class App extends Component {
         <SearchBar search={this.searchGifs} />
         <h1>{this.state.currentQuery ? `Results for \'${this.state.currentQuery}\'` : 'What\'s Trending'}</h1>
         <div className="gifs">
-          {this.state.gifs.map((gif, index) =>{
-            return (<GifDisplay key={index} gif={gif} />);
+          {this.state.gifs.map((gif, index) => {
+            return (<GifDisplay key={index} gif={gif} selectGif={this.selectGif} />);
           })}
+
+          {this.state.selectedGif &&
+              <GifDetails
+                gif={this.state.selectedGif}
+                unselectGif={gif => this.setState({
+                  selectedGif: null,
+                })}
+              />
+          }
         </div>
       </div>
     );

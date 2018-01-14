@@ -10,6 +10,8 @@ class GifDisplay extends Component {
       image: null,
       imageURL: this.getImageURL(props.gif),
     };
+
+    this.clickHandler = this.clickHandler.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +40,10 @@ class GifDisplay extends Component {
     return gif.images.downsized_medium.url;
   }
 
+  clickHandler() {
+    this.props.selectGif(this.props.gif);
+  }
+
   render() {
     const style = {
       backgroundImage: `url(${this.state.imageURL})`,
@@ -46,7 +52,7 @@ class GifDisplay extends Component {
     };
 
     return (
-      <div className="gif-display" style={style}>
+      <div className="gif-display" style={style} onClick={this.clickHandler}>
         {this.state.isLoading && <div className="loading">Loading...</div>}
       </div>
     );
