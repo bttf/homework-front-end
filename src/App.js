@@ -5,11 +5,15 @@ import GifDetails from './components/GifDetails';
 import { API_KEY } from './config';
 import './App.scss';
 
+const _debounce = require('lodash/debounce');
+
 class App extends Component {
   state = {
     gifs: [],
     currentQuery: null,
     selectedGif: null,
+    limit: 25,
+    currentOffset: 0,
   }
 
   constructor(props) {
@@ -17,34 +21,48 @@ class App extends Component {
 
     this.searchGifs = this.searchGifs.bind(this);
     this.selectGif = this.selectGif.bind(this);
+    this.scrollHandler = this.scrollHandler.bind(this);
   }
 
   componentDidMount() {
     this.fetchTrendingGifs();
+
+    window.addEventListener('scroll', _debounce(this.scrollHandler, 200));
   }
 
-  searchGifs(query = '') {
-    this.setState({ currentQuery: query, gifs: [] });
+  scrollHandler() {
+    const threshold = document.documentElement.scrollHeight - window.innerHeight;
+    const currentScrollTop = document.documentElement.scrollTop;
+
+    if (threshold <= currentScrollTop) {
+      this.setState({ currentOffset: this.state.currentOffset + this.state.limit });
+
+      if (this.state.currentQuery) {
+        this.searchGifs(this.state.currentQuery, this.state.currentOffset);
+      } else {
+        this.fetchTrendingGifs(this.state.currentOffset);
+      }
+    }
+  }
+
+  searchGifs(query = '', offset = 0, limit = 25) {
+    if (query !== this.state.currentQuery) {
+      this.setState({ currentQuery: query, gifs: [] });
+    }
 
     if (!query.length) {
       return this.fetchTrendingGifs();
     }
 
-    fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${query}`)
+    fetch(`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${query}&limit=${limit}&offset=${offset}`)
       .then(response => response.json())
-      .then(json => this.setState({ gifs: json.data }));
+      .then(json => this.setState({ gifs: [...this.state.gifs, ...json.data] }));
   }
 
-  fetchTrendingGifs() {
-    return fetch(`https://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}`)
+  fetchTrendingGifs(offset = 0, limit = 25) {
+    return fetch(`https://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}&limit=${limit}&offset=${offset}`)
       .then(response => response.json())
-      .then(json => this.setState({ gifs: json.data }));
-      // .then(json => {
-      //   this.setState({
-      //     gifs: json.data,
-      //     selectedGif: json.data[0],
-      //   });
-      // });
+      .then(json => this.setState({ gifs: [...this.state.gifs, ...json.data] }));
   }
 
   selectGif(gif) {

@@ -1,10 +1,34 @@
+# Adnan Chowdhury - Eaze Frontend HW
+
+## design decisions
+
+- ejected app so that I could use SASS
+- data-fetching logic contained in `App` component
+- GIFs are fetched and mapped to a list of `GifDisplay` components, which are responsive and animated
+- `GifDetails` component acts as modal that appears when GIFDisplay is clicked on
+- infinite scrolling implemented
+
+## project structure
+
+- `components/`
+  - `GifDetails/` - GIF details modal
+  - `GifDisplay/` - GIF display that is used in list view/search results
+  - `SearchBar/` - Search text input
+- `config/` - config stuff (API key)
+- `App.js`
+- `App.scss`
+- `index.js`
+- `index.scss`
+
+---
+
 # Eaze Front End Homework
 
 Our Front End code challenge for engineering applicants
 
 ## Project
 
-We would like you to build a web app that displays the trending GIFs on [Giphy](https://giphy.com/). 
+We would like you to build a web app that displays the trending GIFs on [Giphy](https://giphy.com/).
 Users visiting the website should be able to search for GIFs and see a list of results. The user should be able to expand a GIF and see its details (username, rating, anything you think could be relevant).
 
 Users should have a good user experience on desktop, tablet and mobile devices.
@@ -34,7 +58,7 @@ We’ll evaluate the exercise by looking at the end result and the code.
 
 ### Coding at Eaze
 
-At [Eaze](https://www.eaze.com) we strive for writing simple, maintainable and clean code. 
+At [Eaze](https://www.eaze.com) we strive for writing simple, maintainable and clean code.
 
 We prefer simplicity and over complexity.
 

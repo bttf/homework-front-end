@@ -1,8 +1,6 @@
 .gif-display {
   position: relative;
 
-  opacity :0;
-
   color: white;
 
   width: 300px;
@@ -16,20 +14,13 @@
 
   cursor: pointer;
 
-  box-shadow: 0 0 24px rgba(0, 0, 0, .5);
+  box-shadow: 0 0 0 rgba(0, 0, 0, .5);
 
   transition: all .25s;
-  transform: scale(1.1, 1.1);
 
-  &.visible {
-    opacity: 1;
-    box-shadow: 0 0 0 rgba(0, 0, 0, .5);
-    transform: scale(1, 1);
-
-    &:hover{
-      box-shadow: 0 0 24px rgba(0, 0, 0, .5);
-      transform: scale(1.1, 1.1);
-    }
+  &:hover {
+    box-shadow: 0 0 24px rgba(0, 0, 0, .5);
+    transform: scale(1.1, 1.1);
   }
 
   @media(min-width: 630px) {

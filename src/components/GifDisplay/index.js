@@ -14,10 +14,6 @@ class GifDisplay extends PureComponent {
 
   componentDidMount() {
     this.waitForLoading(this.props.imageURL);
-
-    setTimeout(() => {
-      this.setState({ isVisible: true });
-    }, 100 + (this.props.index * 100));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,7 +43,7 @@ class GifDisplay extends PureComponent {
 
     return (
       <div
-        className={`gif-display ${this.state.isVisible && ' visible'}`}
+        className="gif-display"
         style={style}
         onClick={this.props.selectGif}
       >

@@ -19,7 +19,8 @@ export default class GifDetails extends PureComponent {
   }
 
   render() {
-    console.log('gif details', this.props.gif);
+    console.log('user', );
+
     return (
       <div className={`gif-details-container ${this.state.isVisible && ' visible'}`}>
         <div className="close" onClick={this.props.unselectGif}>
@@ -34,10 +35,12 @@ export default class GifDetails extends PureComponent {
               {this.props.gif.user && this.props.gif.user.username &&
                   <div className="user">
                     <div className="label">User:</div>
-                    {this.props.gif.user.avatar_url && <div className="avatar"><img src={this.props.gif.user.avatar_url} alt="avatar" /></div>}
-                    <div className="username">
-                      {this.props.gif.user.username}
-                    </div>
+                    <a href={this.props.gif.user.profile_url}>
+                      {this.props.gif.user.avatar_url && <div className="avatar"><img src={this.props.gif.user.avatar_url} alt="avatar" /></div>}
+                      <div className="username">
+                        {this.props.gif.user.username}
+                      </div>
+                    </a>
                   </div>
               }
               {this.props.gif.rating &&
